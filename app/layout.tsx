@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import "@/assets/styles/global.css";
+import NavBar from "@/components/Navbar";
 
 export const metadata = {
   title: "Jump properties",
@@ -16,7 +17,10 @@ const MainLayout = ({ children }: props) => {
   return (
     <html>
       <body>
-        <main>{children}</main>
+        <main>
+          <NavBar />
+          {children}
+        </main>
       </body>
     </html>
   );

@@ -1,8 +1,11 @@
+import NavBar from "@/components/Navbar";
 const HomePage = () => {
   return (
-    <div className="text-2xl">
-      <h1>Home Page</h1>
-    </div>
+    <>
+      <div className="text-2xl">
+        <h1>Home Page</h1>
+      </div>
+    </>
   );
 };
 
