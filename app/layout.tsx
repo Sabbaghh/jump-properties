@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import "@/assets/styles/global.css";
 import NavBar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Jump properties",
@@ -20,6 +21,7 @@ const MainLayout = ({ children }: props) => {
         <main>
           <NavBar />
           {children}
+          <Footer />
         </main>
       </body>
     </html>
