@@ -27,12 +27,12 @@ const PropertyCardVertical = (props: PropertyType) => {
     return Object.keys(rates);
   };
   return (
-    <div className="grid gap-3 rounded-md bg-white shadow-md md:grid-cols-2">
-      <div className="relative">
+    <div className="grid grid-cols-1 gap-3 rounded-md bg-white shadow-md md:grid-cols-2">
+      <div className="relative h-64 md:h-auto">
         <Image
           src={`/properties/${images[0]}`}
           alt=""
-          className="h-auto w-full rounded-lg rounded-br-none rounded-tr-none object-cover"
+          className="h-auto w-full rounded-lg rounded-bl-none object-cover md:rounded-bl-md md:rounded-br-none md:rounded-tr-none"
           quality={100}
           fill
           sizes="100vw"
@@ -83,8 +83,7 @@ const PropertyCardVertical = (props: PropertyType) => {
         <div className="flex flex-col justify-between gap-3 lg:flex-row">
           <div className="flex gap-2 self-center lg:mb-0">
             <FaMapPin className="mr-2 inline text-orange-700" />
-            <span className="text-orange-700">
-              {" "}
+            <span className="w-48 overflow-hidden text-ellipsis text-nowrap text-orange-700">
               {location.city} , {location.street}
             </span>
           </div>
