@@ -8,7 +8,7 @@ import {
   FaMapPin,
   FaRulerCombined,
 } from "react-icons/fa";
-const PropertyCard = (props: PropertyType) => {
+const PropertyCardVertical = (props: PropertyType) => {
   const { _id, name, type, location, beds, baths, square_feet, rates, images } =
     props;
   const getRatesShortcuts = (rateType: string): string => {
@@ -27,28 +27,28 @@ const PropertyCard = (props: PropertyType) => {
     return Object.keys(rates);
   };
   return (
-    <div className="relative rounded-xl shadow-md">
-      <Image
-        src={`/properties/${images[0]}`}
-        alt=""
-        className="h-auto w-full rounded-t-xl"
-        width="0"
-        height="0"
-        sizes="100vw"
-      />
-
-      {/* rates dynamically with shortcuts */}
-      <div className="absolute right-[10px] top-[10px] flex gap-2">
-        {Object.entries(rates).map(([key, value], index) => (
-          <h3
-            key={index}
-            className="rounded-lg bg-white px-4 py-2 text-right text-sm font-bold capitalize text-blue-500 md:text-center lg:text-right"
-          >
-            ${value} / {getRatesShortcuts(key)}
-          </h3>
-        ))}
+    <div className="grid gap-3 rounded-md bg-white shadow-md md:grid-cols-2">
+      <div className="relative">
+        <Image
+          src={`/properties/${images[0]}`}
+          alt=""
+          className="h-auto w-full rounded-lg rounded-br-none rounded-tr-none object-cover"
+          quality={100}
+          fill
+          sizes="100vw"
+        />
+        {/* rates dynamically with shortcuts */}
+        <div className="absolute left-[10px] top-[10px] flex gap-2">
+          {Object.entries(rates).map(([key, value], index) => (
+            <h3
+              key={index}
+              className="rounded-lg bg-white px-4 py-2 text-right text-sm font-bold capitalize text-blue-500 md:text-center lg:text-right"
+            >
+              ${value} / {getRatesShortcuts(key)}
+            </h3>
+          ))}
+        </div>
       </div>
-
       <div className="p-4">
         <div className="mb-6 text-left md:text-center lg:text-left">
           <div className="text-gray-600">{type}</div>
@@ -100,4 +100,4 @@ const PropertyCard = (props: PropertyType) => {
   );
 };
 
-export default PropertyCard;
+export default PropertyCardVertical;

@@ -1,4 +1,4 @@
-import PropertyCard from "@/components/PropertyCard";
+import PropertyCard from "@/components/PropertyCardHorizontal";
 import Data from "@/dummydata/properties.json";
 const PropertiesPage = () => {
   return (
