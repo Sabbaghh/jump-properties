@@ -1,11 +1,11 @@
 import InfoBox from "./InfoBox";
-import { InfoBoxDataType } from "./types/infoBox";
+import { InfoBoxDataType } from "@/types/infoBox";
 
 const InfoBoxes = () => {
   return (
     <section>
-      <div className="container-xl lg:container m-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-lg">
+      <div className="container-xl m-auto lg:container">
+        <div className="grid grid-cols-1 gap-4 rounded-lg p-4 md:grid-cols-2">
           {infoBoxesData.map((infoBox, index) => (
             <InfoBox
               key={index}
