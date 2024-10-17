@@ -2,7 +2,7 @@ import Data from "@/dummydata/properties.json";
 import PropertyCard from "@/components/PropertyCardHorizontal";
 import Link from "next/link";
 const RecentProperties = () => {
-  const recentProperties = Data.splice(0, 3);
+  const recentProperties = Data.slice(0, 3);
   return (
     <>
       <section className="container-xl m-auto px-4 pb-10 pt-6 lg:container">
