@@ -11,7 +11,7 @@ const FeaturedProperties = () => {
       </h2>
       {featuredProperties.length > 0 ? (
         <>
-          <div className="container-xl m-auto grid grid-cols-1 gap-4 lg:container md:grid-cols-2">
+          <div className="container-xl m-auto grid grid-cols-1 gap-4 lg:container lg:grid-cols-2">
             {featuredProperties.map((property, index) => (
               <PropertyCard key={index} {...property} />
             ))}

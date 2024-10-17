@@ -80,16 +80,16 @@ const PropertyCardVertical = (props: PropertyType) => {
         </div>
 
         <div className="mb-5 border border-gray-100"></div>
-        <div className="flex flex-col justify-between gap-3 lg:flex-row">
-          <div className="flex gap-2 self-center lg:mb-0">
+        <div className="sm:grid-col-2 grid gap-3 sm:flex-row">
+          <div className="overflow-hidden text-center">
             <FaMapPin className="mr-2 inline text-orange-700" />
-            <span className="w-48 overflow-hidden text-ellipsis text-nowrap text-orange-700">
+            <span className="overflow-hidden text-ellipsis text-nowrap text-orange-700">
               {location.city} , {location.street}
             </span>
           </div>
           <Link
             href={`/properties/${_id}`}
-            className="h-[36px] rounded-lg bg-blue-500 px-4 py-2 text-center text-sm text-white hover:bg-blue-600"
+            className="rounded-lg bg-blue-500 p-2 px-4 text-center text-white hover:bg-blue-600"
           >
             Details
           </Link>

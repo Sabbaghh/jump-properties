@@ -11,7 +11,7 @@ const RecentProperties = () => {
         </h2>
         {recentProperties.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               {recentProperties.map((property, index) => (
                 <PropertyCard key={index} {...property} />
               ))}
@@ -20,14 +20,11 @@ const RecentProperties = () => {
         ) : (
           <p>No data</p>
         )}
-      </section>
-
-      <section className="container-xl m-auto lg:container">
         <Link
-          className="m-auto block w-1/2 rounded-xl bg-black py-4 text-center text-white hover:bg-gray-800"
           href="/properties"
+          className="m-auto mt-12 block rounded-lg bg-black p-5 text-center text-white sm:w-1/2"
         >
-          Show all properties
+          Show All Properties
         </Link>
       </section>
     </>
