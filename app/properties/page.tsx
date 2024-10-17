@@ -1,12 +1,14 @@
 import PropertyCard from "@/components/PropertyCardHorizontal";
-import Data from "@/dummydata/properties.json";
-const PropertiesPage = () => {
+import Property from "@/models/Property";
+import PropertyType from "@/types/property";
+const PropertiesPage = async () => {
+  const properties = await Property.find({}).lean<PropertyType[]>();
   return (
     <section className="px-4 py-6">
       <div className="container-xl m-auto px-4 py-6 lg:container">
-        {Data.length > 0 ? (
+        {properties.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {Data.map((property, index) => (
+            {properties.map((property, index) => (
               <PropertyCard key={index} {...property} />
             ))}
           </div>

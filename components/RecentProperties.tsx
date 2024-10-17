@@ -1,8 +1,11 @@
-import Data from "@/dummydata/properties.json";
 import PropertyCard from "@/components/PropertyCardHorizontal";
 import Link from "next/link";
-const RecentProperties = () => {
-  const recentProperties = Data.slice(0, 3);
+import Property from "@/models/Property";
+import propertyType from "@/types/property";
+const RecentProperties = async () => {
+  const recentProperties = await Property.find({})
+    .limit(3)
+    .lean<propertyType[]>();
   return (
     <>
       <section className="container-xl m-auto px-4 pb-10 pt-6 lg:container">
@@ -12,8 +15,8 @@ const RecentProperties = () => {
         {recentProperties.length > 0 ? (
           <>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-              {recentProperties.map((property, index) => (
-                <PropertyCard key={index} {...property} />
+              {recentProperties.map((property) => (
+                <PropertyCard key={property._id.toString()} {...property} />
               ))}
             </div>
           </>
