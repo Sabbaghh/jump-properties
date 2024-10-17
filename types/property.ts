@@ -1,5 +1,6 @@
+import { ObjectId } from "mongodb";
 type property = {
-  _id: string;
+  _id: string | ObjectId;
   owner: string;
   name: string;
   type: string;
