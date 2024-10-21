@@ -1,26 +1,49 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import logo from "@/assets/images/logo-white.png";
 import ProfileDefualt from "@/assets/images/profile.png";
 import Link from "next/link";
 import { FaGoogle } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 const NavBar = () => {
+  const { data: session } = useSession();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const login = () => {
-    setIsAuthenticated(true);
-    setIsProfileMenuOpen(false);
+  const [authProviders, setAuthProviders] = useState<any>(null);
+  const userImage = session?.user?.image || ProfileDefualt;
+  const login = async (id: string) => {
+    try {
+      await signIn(id);
+      setIsProfileMenuOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const logout = () => {
-    setIsAuthenticated(false);
-    setIsProfileMenuOpen(false);
+  const logout = async () => {
+    try {
+      await signOut();
+      setIsProfileMenuOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    const fetchProviders = async () => {
+      try {
+        const providers = await getProviders();
+        setAuthProviders(providers); // Set the fetched providers
+      } catch (error) {
+        console.error(error); // Log any errors
+      }
+    };
+    fetchProviders(); // Call the async function
+  }, []);
   const pathname = usePathname();
   return (
-    <nav className="bg-blue-700 border-b border-blue-500">
+    <nav className="border-b border-blue-500 bg-blue-700">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-20 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
@@ -57,7 +80,7 @@ const NavBar = () => {
             <Link className="flex flex-shrink-0 items-center" href="/">
               <Image className="h-10 w-auto" src={logo} alt="PropertyPulse" />
 
-              <span className="hidden md:block text-white text-2xl font-bold ml-2">
+              <span className="ml-2 hidden text-2xl font-bold text-white md:block">
                 PropertyPulse
               </span>
             </Link>
@@ -68,7 +91,7 @@ const NavBar = () => {
                   href="/"
                   className={`text-white ${
                     pathname === "/" && "bg-black"
-                  }  hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
+                  } rounded-md px-3 py-2 hover:bg-gray-900 hover:text-white`}
                 >
                   Home
                 </Link>
@@ -76,16 +99,16 @@ const NavBar = () => {
                   href="/properties"
                   className={`text-white ${
                     pathname === "/properties" && "bg-black"
-                  }  hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
+                  } rounded-md px-3 py-2 hover:bg-gray-900 hover:text-white`}
                 >
                   Properties
                 </Link>
-                {isAuthenticated ? (
+                {session ? (
                   <Link
                     href="/properties/add"
                     className={`text-white ${
                       pathname === "/properties/add" && "bg-black"
-                    }  hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
+                    } rounded-md px-3 py-2 hover:bg-gray-900 hover:text-white`}
                   >
                     Add Property
                   </Link>
@@ -95,24 +118,29 @@ const NavBar = () => {
           </div>
 
           {/* <!-- Right Side Menu (Logged Out) --> */}
-          {!isAuthenticated ? (
-            <div className="hidden md:block md:ml-6">
+          {!session ? (
+            <div className="hidden md:ml-6 md:block">
               <div className="flex items-center">
-                <button
-                  onClick={() => login()}
-                  className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                >
-                  <FaGoogle className="text-white mr-2" />
-                  <span> Login or Register</span>
-                </button>
+                {authProviders
+                  ? Object.values(authProviders).map((provider: any) => (
+                      <button
+                        key={provider.id}
+                        onClick={() => login(provider.id)}
+                        className="flex items-center rounded-md bg-gray-700 px-3 py-2 text-white hover:bg-gray-900 hover:text-white"
+                      >
+                        <FaGoogle className="mr-2 text-white" />
+                        <span> Login or Register</span>
+                      </button>
+                    ))
+                  : null}
               </div>
             </div>
           ) : null}
 
           {/* <!-- Right Side Menu (Logged In) --> */}
-          {isAuthenticated ? (
+          {session ? (
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
-              <Link href="/messages" className="relative group">
+              <Link href="/messages" className="group relative">
                 <button
                   type="button"
                   className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -134,7 +162,7 @@ const NavBar = () => {
                     />
                   </svg>
                 </button>
-                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                <span className="absolute right-0 top-0 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-red-600 px-2 py-1 text-xs font-bold leading-none text-white">
                   2
                   {/* <!-- Replace with the actual number of notifications --> */}
                 </span>
@@ -154,7 +182,10 @@ const NavBar = () => {
                     <span className="sr-only">Open user menu</span>
                     <Image
                       className="h-8 w-8 rounded-full"
-                      src={ProfileDefualt}
+                      src={userImage}
+                      width={0}
+                      height={0}
+                      sizes="100vw"
                       alt=""
                     />
                   </button>
@@ -213,7 +244,7 @@ const NavBar = () => {
               href="/"
               className={`${
                 pathname === "/" && "bg-black"
-              }  text-white block rounded-md px-3 py-2 text-base font-medium`}
+              } block rounded-md px-3 py-2 text-base font-medium text-white`}
             >
               Home
             </Link>
@@ -221,28 +252,35 @@ const NavBar = () => {
               href="/properties"
               className={`${
                 pathname === "/properties" && "bg-black"
-              }  text-white block rounded-md px-3 py-2 text-base font-medium`}
+              } block rounded-md px-3 py-2 text-base font-medium text-white`}
             >
               Properties
             </Link>
 
-            {isAuthenticated ? (
+            {session ? (
               <Link
                 href="/properties/add"
                 className={`${
                   pathname === "/properties/add" && "bg-black"
-                }  text-white block rounded-md px-3 py-2 text-base font-medium`}
+                } block rounded-md px-3 py-2 text-base font-medium text-white`}
               >
                 Add Property
               </Link>
             ) : (
-              <button
-                onClick={() => login()}
-                className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2 my-5"
-              >
-                <FaGoogle className="text-white mr-2" />
-                <span>Login or Register</span>
-              </button>
+              <>
+                {authProviders
+                  ? Object.values(authProviders).map((provider: any) => (
+                      <button
+                        key={provider.id}
+                        onClick={() => login(provider.id)}
+                        className="my-5 flex items-center rounded-md bg-gray-700 px-3 py-2 text-white hover:bg-gray-900 hover:text-white"
+                      >
+                        <FaGoogle className="mr-2 text-white" />
+                        <span>Login or Register</span>
+                      </button>
+                    ))
+                  : null}
+              </>
             )}
           </div>
         </div>
