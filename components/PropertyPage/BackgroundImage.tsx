@@ -5,7 +5,7 @@ import { FaArrowLeft } from "react-icons/fa";
 type prop = {
   image: string;
 };
-function Hero(props: prop) {
+function BackgroundImage(props: prop) {
   return (
     <>
       <Image
@@ -26,4 +26,4 @@ function Hero(props: prop) {
   );
 }
 
-export default Hero;
+export default BackgroundImage;
