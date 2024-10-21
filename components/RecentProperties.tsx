@@ -4,6 +4,7 @@ import Property from "@/models/Property";
 import propertyType from "@/types/property";
 const RecentProperties = async () => {
   const recentProperties = await Property.find({})
+    .sort({ createdAt: -1 })
     .limit(3)
     .lean<propertyType[]>();
   return (
