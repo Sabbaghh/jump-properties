@@ -2,7 +2,7 @@ import SearchComponent from "@/components/SearchProperty";
 import { FaMapPin } from "react-icons/fa";
 import Property from "@/models/Property";
 import propertyType from "@/types/property";
-import BackgroundImage from "@/components/PropertyPage/backgroundImage";
+import BackgroundImage from "@/components/PropertyPage/BackgroundImage";
 import Aside from "@/components/PropertyPage/Aside";
 import InfoCard from "@/components/PropertyPage/InfoCard";
 import Rates from "@/components/PropertyPage/Rates";
