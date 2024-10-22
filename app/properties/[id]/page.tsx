@@ -8,7 +8,8 @@ import InfoCard from "@/components/PropertyPage/InfoCard";
 import Rates from "@/components/PropertyPage/Rates";
 import Amenities from "@/components/PropertyPage/Amenities";
 import Descreption from "@/components/PropertyPage/Descreption";
-const PropertyPage = async ({ params }: { params: { id: string } }) => {
+const PropertyPage = async (props: { params: Promise<{ id: string }> }) => {
+  const params = await props.params;
   const property = (await Property.findById(params.id).lean()) as propertyType;
 
   return (
