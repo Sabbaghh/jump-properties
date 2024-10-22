@@ -1,5 +1,4 @@
 import GoogleProvider from "next-auth/providers/google";
-import connectDB from "@/config/database";
 import User from "@/models/User";
 
 export const authOptions = {
@@ -19,7 +18,6 @@ export const authOptions = {
   callbacks: {
     //invoked on successful sign in
     async signIn({ profile }: any) {
-      await connectDB();
       //check if user exists
       const userExist = await User.findOne({ email: profile.email });
       console.log(userExist, "userExist");
